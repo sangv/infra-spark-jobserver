@@ -13,13 +13,11 @@ ENV JOBSERVER_MEMORY="2G"
 RUN ["mkdir", "-p", "\/database"]
 
 WORKDIR /opt
-ADD spark-1.6.2.tgz /opt/
-RUN ls -al /opt/spark-1.6.2
-RUN mv /opt/spark-1.6.2 /spark
+COPY spark-1.6.2/dist /opt/spark
 VOLUME ["\/database"]
 
-RUN mkdir /spark/app
-WORKDIR /spark
+RUN mkdir /opt/spark/app
+WORKDIR /opt/spark/
 COPY app/spark-job-server.jar app/spark-job-server.jar
 COPY app/server_start.sh app/server_start.sh
 COPY app/server_stop.sh app/server_stop.sh
@@ -29,6 +27,6 @@ COPY app/log4j-stdout.properties app/log4j-server.properties
 COPY app/docker.conf app/docker.conf
 COPY app/docker.sh app/settings.sh
 
-ENV SPARK_HOME="/spark"
+ENV SPARK_HOME="/opt/spark"
 
-ENTRYPOINT ["app\/server_start.sh"]
+ENTRYPOINT ["/opt/spark/app/server_start.sh"]
