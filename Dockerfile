@@ -29,4 +29,4 @@ COPY app/docker.sh app/settings.sh
 
 ENV SPARK_HOME="/opt/spark"
 
-ENTRYPOINT ["/opt/spark/app/server_start.sh"]
+ENTRYPOINT ["/opt/spark/app/server_start.sh","--packages com.databricks:spark-csv_2.11:1.4.0"]
